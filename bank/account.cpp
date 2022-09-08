@@ -1,85 +1,69 @@
 #include "account.h"
-#include<string>
 #include<iostream>
 #include<cmath>
 #include <iomanip>
 using namespace std;
-double SavingsAccount::total = 0;
-SavingsAccount::SavingsAccount(Date date, std::string id, double rate):lastDate(date)
+SavingsAccount::SavingsAccount(int date, int id, double rate)
 {
 	this->id = id;
 	this->rate = rate;
+	this->lastDate = date;
 	this->accumulation = 0;
 	this->balance = 0;
-	
-	cout<<setw(16) <<setiosflags(ios::left)<<lastDate.show()<< this->getId() << " created" << endl;
+	cout <<setw(8) << setiosflags(ios::left) << date  << "#" << this->getId() << " is created" << endl;
 }
-double SavingsAccount::accumulate(Date date)
+double SavingsAccount::accumulate(int date)
 {
-	return this->balance * (date - this->lastDate)*rate;
+	return this->balance * (date - this->lastDate)*rate / 365;
 }
-void SavingsAccount::record(Date date, double amount,string desc)
+void SavingsAccount::record(int date, double amount)
 {
-	double temp = accumulate(date) / lastDate.getYearDays();
-	temp = floor(temp * 100 + 0.5) / 100;
-	this->accumulation += temp;
+	this->accumulation += accumulate(date);
 	this->lastDate = date;
 
 	amount = floor(amount * 100 + 0.5) / 100;
 	this->balance += amount;
-	total += amount;
-	lastDate.show();
-	cout << setw(16) << setiosflags(ios::left) << lastDate.show() 
-		<< setw(16) << this->getId()  
-		<<setw(8) << setiosflags(ios::left) << amount 
-		<< setw(8) << setiosflags(ios::left) << this->getBalance() << desc << endl;
+	cout << setw(8) << setiosflags(ios::left) << date
+		<< "#" << setw(15) << this->getId()
+		<< setw(8) << amount  << this->getBalance() << endl;
 }
-void SavingsAccount::deposit(Date date, double amount, std::string desc)
+void SavingsAccount::deposit(int date, double amount)
 {
-	record(date, amount,desc);
+	record(date, amount);
 }
-void SavingsAccount::withdraw(Date date, double amount, std::string desc)
+void SavingsAccount::withdraw(int date, double amount)
 {
-	if (amount > getBalance())
+	if (amount > balance)
 	{
-		cout << "Error: not enough money" << endl;
+		cout << "Error!" << endl;
 	}
 	else {
-		record(date, -amount,desc);
+		record(date, -amount);
 	}
 	
 }
-void SavingsAccount::settle(Date date)
+void SavingsAccount::settle(int date)
 {
-	
-	double temp = accumulate(date) / lastDate.getYearDays();
-	temp = floor(temp * 100 + 0.5) / 100;
-	this->accumulation += temp;
-
+	this->accumulation += accumulate(date);
 	this->lastDate = date;
 	double amount = this->accumulation;
-	amount = floor(amount * 100 + 0.5) / 100;
 	this->accumulation = 0;
-	record(date, amount,"interest");
+	record(date, amount);
 }
 
-double SavingsAccount::getTotal()
+void SavingsAccount::show()
 {
-	return SavingsAccount::total;
+	cout << setiosflags(ios::left) << "#" << setw(15) << this->getId() << "Balance: " << this->getBalance();
 }
-void SavingsAccount::show() const
+int SavingsAccount::getId()
 {
-	cout << setw(16) << this->id << "" << "Balance: " << this->getBalance();
+	return this->id;
 }
-std::string SavingsAccount::getId() const
-{
-	return "#" + this->id;
-}
-double SavingsAccount::getBalance() const
+double SavingsAccount::getBalance()
 {
 	return this->balance;
 }
-double SavingsAccount::getRate() const
+double SavingsAccount::getRate()
 {
 	return this->rate;
 }

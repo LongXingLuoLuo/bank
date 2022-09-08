@@ -1,4 +1,3 @@
-/*
 #include "account.h"
 #include <iostream>
 
@@ -6,7 +5,7 @@ using namespace std;
 
 
 
-int step_1() {
+int main() {
 
 	//建立几个账户
 
@@ -49,4 +48,3 @@ int step_1() {
 	return 0;
 
 }
-*/

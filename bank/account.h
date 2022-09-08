@@ -1,36 +1,30 @@
 #pragma once
-#include<string>
-#include"date.h"
-using namespace std;
 class SavingsAccount
 {
 private:
 	//id
-	std::string id;
+	int id;
 	//余额
 	double balance;
 	//最后操作时间
-	Date lastDate;
+	int lastDate;
 	//利润
 	double accumulation;
 	//年利率
 	double rate;
-	void record(Date date, double amount, string desc);
-	double accumulate(Date date);
-	//得到所有用户的总金额
-	static double total;
+	void record(int date, double amount);
+	double accumulate(int date);
 public:
-	SavingsAccount(Date date, std::string id, double rate);
-	std::string getId() const;
-	double getBalance() const;
-	double getRate() const;
-	void show() const;
+	SavingsAccount(int date, int id, double rate);
+	int getId();
+	double getBalance();
+	double getRate();
+	void show();
 	//存款
-	void deposit(Date date, double amount, std::string desc);
+	void deposit(int date, double amount);
 	//取钱
-	void withdraw(Date date, double amount, std::string desc);
+	void withdraw(int date, double amount);
 	//结算
-	void settle(Date date);
-	static double getTotal();
+	void settle(int date);
 };
 
