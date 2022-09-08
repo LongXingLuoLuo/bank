@@ -130,7 +130,6 @@
     <ClCompile Include="account.cpp" />
     <ClCompile Include="date.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="step_1.cpp" />
     <ClCompile Include="step_2.cpp" />
   </ItemGroup>
   <ItemGroup>
