@@ -24,9 +24,6 @@
     <ClCompile Include="step_1.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="step_2.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="date.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
