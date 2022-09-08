@@ -16,11 +16,11 @@ SavingsAccount::SavingsAccount(Date date, std::string id, double rate):lastDate(
 }
 double SavingsAccount::accumulate(Date date)
 {
-	return this->balance * (date - this->lastDate)*rate;
+	return this->balance * (date - this->lastDate) * rate / lastDate.getYearDays();
 }
 void SavingsAccount::record(Date date, double amount,string desc)
 {
-	double temp = accumulate(date) / lastDate.getYearDays();
+	double temp = accumulate(date);
 	temp = floor(temp * 100 + 0.5) / 100;
 	this->accumulation += temp;
 	this->lastDate = date;
@@ -52,7 +52,7 @@ void SavingsAccount::withdraw(Date date, double amount, std::string desc)
 void SavingsAccount::settle(Date date)
 {
 	
-	double temp = accumulate(date) / lastDate.getYearDays();
+	double temp = accumulate(date);
 	temp = floor(temp * 100 + 0.5) / 100;
 	this->accumulation += temp;
 

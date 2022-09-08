@@ -3,9 +3,11 @@
 #include<string>
 #include <sstream>
 using namespace std;
+// 起始日期 0年0月1日
+// 保存月份在一年中的天数
 const int DATS_BEFORE_MONTH[] = { 0,31,59,90,120,151,181,212,243,273,304,334,365 };
-#define LEAP_YEAR_DAYS 366
-#define AVERAGE_YEAR_DAYS 365
+#define LEAP_YEAR_DAYS 366 // 闰年
+#define AVERAGE_YEAR_DAYS 365 // 平年
 Date::Date(int year, int month, int day)
 {
 	this->year = year;
