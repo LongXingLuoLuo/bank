@@ -21,16 +21,17 @@ private:
 	static double total;
 public:
 	SavingsAccount(Date date, std::string id, double rate);
+	// 展示
+	void show() const;
+	// 存款
+	void deposit(Date date, double amount, std::string desc);
+	// 取钱
+	void withdraw(Date date, double amount, std::string desc);
+	// 结算
+	void settle(Date date);
 	std::string getId() const;
 	double getBalance() const;
 	double getRate() const;
-	void show() const;
-	//存款
-	void deposit(Date date, double amount, std::string desc);
-	//取钱
-	void withdraw(Date date, double amount, std::string desc);
-	//结算
-	void settle(Date date);
 	static double getTotal();
 };
 
