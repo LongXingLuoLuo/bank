@@ -11,10 +11,11 @@ Date::Date(int year, int month, int day)
 	this->year = year;
 	this->month = month;
 	this->day = day;
+	this->totalDays = this->distance();
 }
-int Date::daysCount()const
+int Date::distance()const
 {
-	int years = year - 1;
+	int years = this->year - 1;
 	int results = years * 365 + years / 4 - years / 100 + years / 400
 		+ DATS_BEFORE_MONTH[month - 1] + day;
 	if (isLeapYear() && month > 2)
@@ -28,6 +29,7 @@ Date::Date(const Date& date)
 	this->year = date.year;
 	this->month = date.month;
 	this->day = date.day;
+	this->totalDays = date.totalDays;
 }
 bool Date::isLeapYear()const
 {
@@ -50,21 +52,21 @@ bool Date::isLeapYear()const
 		return false;
 	}
 }
-int Date::operator-(const Date& date)
+int Date::operator-(const Date& date) const
 {
-	return this->daysCount() - date.daysCount();
+	return this->distance() - date.distance();
 }
-Date::operator int()
+Date::operator int() const
 {
-	return this->daysCount();
+	return this->distance();
 }
-std::string Date::show()
+std::string Date::show() const
 {
 	stringstream ss;
 	ss << year << "-" << month << "-" << day;
 	return ss.str();
 }
-int Date::getYearDays()
+int Date::getMaxDays()
 {
 	if (this->isLeapYear())
 	{
@@ -74,4 +76,16 @@ int Date::getYearDays()
 	{
 		return AVERAGE_YEAR_DAYS;
 	}
+}
+int Date::getYear() const
+{
+	return this->year;
+}
+int Date::getDay() const
+{
+	return this->day;
+}
+int Date::getMonth() const
+{
+	return this->month;
 }

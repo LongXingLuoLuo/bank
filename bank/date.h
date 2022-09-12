@@ -4,20 +4,26 @@ class Date
 {
 private:
 	int year, month, day;
+	int totalDays;
 public:
 	Date(int year, int month, int day);
 	Date(const Date &date);
 	// 获取距离初始日期的总天数
-	int daysCount()const;
+	int distance()const;
 	// 是否为闰年
 	bool isLeapYear()const;
 	// 转换为int
-	operator int();
+	operator int() const;
 	// 定义-，返回两个总天数之差
-	int operator-(const Date& date);
+	int operator-(const Date& date) const;
 	// 展示
-	std::string show();
-	// 返回总天数
-	int getYearDays();
+	std::string show() const;
+	// 返回一年中总天数
+	int getMaxDays();
+
+	int getYear() const;
+	int getDay() const;
+	int getMonth() const;
+
 };
 

@@ -16,7 +16,7 @@ SavingsAccount::SavingsAccount(Date date, std::string id, double rate):lastDate(
 }
 double SavingsAccount::accumulate(Date date)
 {
-	return this->balance * (date - this->lastDate) * rate / lastDate.getYearDays();
+	return this->balance * (date - this->lastDate) * rate / lastDate.getMaxDays();
 }
 void SavingsAccount::record(Date date, double amount,string desc)
 {
