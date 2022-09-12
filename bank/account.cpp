@@ -5,7 +5,7 @@
 #include <iomanip>
 using namespace std;
 double SavingsAccount::total = 0;
-SavingsAccount::SavingsAccount(Date date, std::string id, double rate):lastDate(date)
+SavingsAccount::SavingsAccount(Date date, string id, double rate):lastDate(date)
 {
 	this->id = id;
 	this->rate = rate;
@@ -34,11 +34,11 @@ void SavingsAccount::record(Date date, double amount,string desc)
 		<<setw(8) << setiosflags(ios::left) << amount 
 		<< setw(8) << setiosflags(ios::left) << this->getBalance() << desc << endl;
 }
-void SavingsAccount::deposit(Date date, double amount, std::string desc)
+void SavingsAccount::deposit(Date date, double amount, string desc)
 {
 	record(date, amount,desc);
 }
-void SavingsAccount::withdraw(Date date, double amount, std::string desc)
+void SavingsAccount::withdraw(Date date, double amount, string desc)
 {
 	if (amount > getBalance())
 	{
@@ -71,7 +71,7 @@ void SavingsAccount::show() const
 {
 	cout << setw(16) << this->id << "" << "Balance: " << this->getBalance();
 }
-std::string SavingsAccount::getId() const
+string SavingsAccount::getId() const
 {
 	return "#" + this->id;
 }

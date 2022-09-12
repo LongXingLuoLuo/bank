@@ -6,7 +6,7 @@ class SavingsAccount
 {
 private:
 	//id
-	std::string id;
+	string id;
 	//余额
 	double balance;
 	//最后操作时间
@@ -20,15 +20,15 @@ private:
 	//得到所有用户的总金额
 	static double total;
 public:
-	SavingsAccount(Date date, std::string id, double rate);
-	std::string getId() const;
+	SavingsAccount(Date date, string id, double rate);
+	string getId() const;
 	double getBalance() const;
 	double getRate() const;
 	void show() const;
 	//存款
-	void deposit(Date date, double amount, std::string desc);
+	void deposit(Date date, double amount, string desc);
 	//取钱
-	void withdraw(Date date, double amount, std::string desc);
+	void withdraw(Date date, double amount, string desc);
 	//结算
 	void settle(Date date);
 	static double getTotal();
