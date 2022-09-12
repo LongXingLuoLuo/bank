@@ -21,10 +21,10 @@
     <ClCompile Include="account.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="step_2.cpp">
+    <ClCompile Include="date.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="date.cpp">
+    <ClCompile Include="step_3.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
