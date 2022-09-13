@@ -131,7 +131,7 @@
     <ClCompile Include="accumulator.cpp" />
     <ClCompile Include="date.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="step_3.cpp" />
+    <ClCompile Include="step_4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="account.h" />

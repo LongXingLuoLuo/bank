@@ -24,10 +24,10 @@
     <ClCompile Include="date.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="step_3.cpp">
+    <ClCompile Include="accumulator.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="accumulator.cpp">
+    <ClCompile Include="step_4.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
