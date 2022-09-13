@@ -16,7 +16,7 @@ public:
 	// 存入款实现
 	void record(Date date, double amount, string desc);
 	// 展示
-	string show() const;
+	virtual void show() const;
 	// 报错
 	void error(string msg);
 
@@ -32,12 +32,36 @@ private:
 	double rate;
 public:
 	SavingsAccount(Date date, string id, double rate);
-	double getRate() const;
 	// 存款
 	void deposit(Date date, double amount, string desc);
 	// 取钱
 	void withdraw(Date date, double amount, string desc);
 	// 结算
 	void settle(Date date);
+	double getRate() const;
 };
-
+class CreditAccount:public virtual Account {
+private:
+	// 利息
+	Accumulator acc;
+	// 信用额度
+	double credit;
+	// 日利率
+	double rate;
+	// 年费
+	double fee;
+public:
+	CreditAccount(Date date, string id, double credit, double rate, double fee);
+	// 存款
+	void deposit(Date date, double amount, string desc);
+	// 取钱
+	void withdraw(Date date, double amount, string desc);
+	// 结算
+	void settle(Date date);
+	void show() const;
+	double getCredit() const;
+	double getRate() const;
+	double getFee() const;
+	// 剩余信用额度
+	double getAvailable() const;
+};

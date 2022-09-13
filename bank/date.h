@@ -20,6 +20,8 @@ public:
 	std::string show() const;
 	// 返回一年中总天数
 	int getMaxDays();
+	// 返回一个月中总天数
+	int getMonthDays();
 
 	int getYear() const;
 	int getDay() const;
