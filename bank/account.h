@@ -19,7 +19,12 @@ public:
 	virtual void show() const;
 	// 报错
 	void error(string msg);
-
+	// 存款
+	virtual void deposit(Date date, double amount, string desc) = 0;
+	// 取款
+	virtual void withdraw(Date date, double amount, string desc) = 0;
+	// 结算
+	virtual void settle(const Date& date) = 0;
 	string getId() const;
 	double getBalance() const;
 	static double getTotal();
@@ -37,7 +42,7 @@ public:
 	// 取钱
 	void withdraw(Date date, double amount, string desc);
 	// 结算
-	void settle(Date date);
+	void settle(const Date& date);
 	double getRate() const;
 };
 class CreditAccount:public virtual Account {
@@ -57,7 +62,7 @@ public:
 	// 取钱
 	void withdraw(Date date, double amount, string desc);
 	// 结算
-	void settle(Date date);
+	void settle(const Date& date);
 	void show() const;
 	double getCredit() const;
 	double getRate() const;

@@ -36,7 +36,7 @@ int main() {
 
 		date.show();
 
-		cout << "\tTotal: " << Account::getTotal() << "\tcommand> ";
+		cout << "Total: " << Account::getTotal()<<"        " << "command> ";
 
 
 
@@ -57,7 +57,7 @@ int main() {
 			cin >> index >> amount;
 
 			getline(cin, desc);
-
+			cout << endl;
 			accounts[index]->deposit(date, amount, desc);
 
 			break;
