@@ -17,9 +17,9 @@ public:
 	// 定义-，返回两个总天数之差
 	int operator-(const Date& date) const;
 	// 展示
-	std::string show() const;
+	void show() const;
 	// 返回一年中总天数
-	int getMaxDays();
+	int getMaxDay();
 	// 返回一个月中总天数
 	int getMonthDays();
 

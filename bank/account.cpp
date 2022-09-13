@@ -11,8 +11,8 @@ Account::Account(Date date, string id)
 {
 	this->id = id;
 	this->balance = 0.0f;
-
-	cout << setw(16) << setiosflags(ios::left) << date.show() <<"#" << this->getId() << " created" << endl;
+	date.show();
+	cout << setiosflags(ios::left)<<"#" << this->getId() << " created" << endl;
 }
 // 存入款实现
 void Account::record(Date date, double amount, string desc) 
@@ -20,7 +20,8 @@ void Account::record(Date date, double amount, string desc)
 	amount = floor(amount * 100 + 0.5) / 100;
 	this->balance += amount;
 	total += amount;
-	cout << setw(16) << setiosflags(ios::left) << date.show()
+	date.show();
+	cout << setiosflags(ios::left) 
 		<< "#" << setw(15) << this->getId()
 		<< setw(8) << setiosflags(ios::left) << amount
 		<< setw(8) << setiosflags(ios::left) << this->getBalance() << desc << endl;
@@ -75,7 +76,7 @@ void SavingsAccount::settle(Date date)
 {
 	Date temp(date.getYear() - 1, 1, 1);
 	acc.change(date, getBalance());
-	double amount = acc.getSum() * rate / temp.getMaxDays();
+	double amount = acc.getSum() * rate / temp.getMaxDay();
 	acc.reset(date, this->getBalance());
 	amount = floor(amount * 100 + 0.5) / 100;
 	deposit(date, amount,"interest");

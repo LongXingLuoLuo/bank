@@ -2,6 +2,7 @@
 #include<iostream>
 #include<string>
 #include <sstream>
+#include <iomanip>
 using namespace std;
 namespace {
 	const int DAYS_BEFORE_MONTH[] = { 0,31,59,90,120,151,181,212,243,273,304,334,365 };
@@ -63,13 +64,13 @@ Date::operator int() const
 {
 	return this->distance();
 }
-std::string Date::show() const
+void Date::show() const
 {
 	stringstream ss;
 	ss << year << "-" << month << "-" << day;
-	return ss.str();
+	cout << setw(16) << setiosflags(ios::left) << ss.str();
 }
-int Date::getMaxDays()
+int Date::getMaxDay()
 {
 	if (this->isLeapYear())
 	{

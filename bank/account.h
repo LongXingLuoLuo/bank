@@ -19,7 +19,12 @@ public:
 	virtual void show() const;
 	// 报错
 	void error(string msg);
-
+	// 存款
+	virtual void deposit(Date date, double amount, string desc) = 0;
+	// 取款
+	virtual void withdraw(Date date, double amount, string desc) = 0;
+	// 结算
+	virtual void settle(Date date) = 0;
 	string getId() const;
 	double getBalance() const;
 	static double getTotal();
