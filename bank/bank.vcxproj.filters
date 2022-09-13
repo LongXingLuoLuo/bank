@@ -27,12 +27,18 @@
     <ClCompile Include="step_3.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="accumulator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="account.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="date.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="accumulator.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
