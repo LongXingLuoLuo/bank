@@ -1,7 +1,9 @@
 #pragma once
 #include<string>
+#include<map>
 #include"date.h"
 #include"accumulator.h"
+#include"accountRecord.h"
 using namespace std;
 class Account {
 private:
@@ -11,6 +13,9 @@ private:
 	double balance;
 	// 所有用户总金
 	static double total;
+	// 账目记录
+	multimap<Date, AccountRecord> recordMap;
+
 public:
 	Account(Date date, string id);
 	// 存入款实现

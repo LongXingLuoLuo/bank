@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="account.cpp" />
+    <ClCompile Include="accountRecord.cpp" />
     <ClCompile Include="accumulator.cpp" />
     <ClCompile Include="date.cpp" />
     <ClCompile Include="main.cpp" />
@@ -135,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="account.h" />
+    <ClInclude Include="accountRecord.h" />
     <ClInclude Include="accumulator.h" />
     <ClInclude Include="date.h" />
   </ItemGroup>

@@ -20,6 +20,7 @@ void Account::record(Date date, double amount, string desc)
 	amount = floor(amount * 100 + 0.5) / 100;
 	this->balance += amount;
 	total += amount;
+
 	date.show();
 	cout << setiosflags(ios::left) 
 		<< "#" << setw(15) << this->getId()

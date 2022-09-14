@@ -7,8 +7,8 @@ using namespace std;
 namespace {
 	const int DAYS_BEFORE_MONTH[] = { 0,31,59,90,120,151,181,212,243,273,304,334,365 };
 	const int DAYS_IN_MONTH_FORM_AVERAGE[] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
-	int LEAP_YEAR_DAYS = 366;// 平年天数
-	int AVERAGE_YEAR_DAYS = 365; // 平年天数
+	const int LEAP_YEAR_DAYS = 366;// 平年天数
+	const int AVERAGE_YEAR_DAYS = 365; // 平年天数
 }
 Date::Date(int year, int month, int day)
 {
@@ -22,7 +22,7 @@ Date::Date(const Date& date)
 	this->year = date.year;
 	this->month = date.month;
 	this->day = date.day;
-	this->totalDays = date.totalDays;
+	this->totalDays = this->distance();
 }
 int Date::distance()const
 {
@@ -63,6 +63,11 @@ int Date::operator-(const Date& date) const
 Date::operator int() const
 {
 	return this->distance();
+}
+// 重载<运算符
+bool Date::operator<(const Date& date) const
+{
+	return this->distance() < date.distance();
 }
 void Date::show() const
 {
