@@ -15,6 +15,9 @@ public:
 	int distance()const;
 	// 是否为闰年
 	bool isLeapYear()const;
+	// 从控制台输入获取日期
+	static Date read();
+	
 	// 展示
 	void show() const;
 	// 返回一年中总天数

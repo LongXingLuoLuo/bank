@@ -1,16 +1,18 @@
-#include "accountRecord.h"
+#include"accountRecord.h"
 #include <iomanip>
 #include<iostream>
 using namespace std;
-AccountRecord::AccountRecord(Date date, Account* acc, double amount, double banlance):account(acc),date(date)
+AccountRecord::AccountRecord(Date date, Account* acc, double amount, double balance,string desc) :date(date),account(acc)
 {
 	this->amount = amount;
 	this->balance = balance;
+	this->desc = desc;
 }
-AccountRecord::AccountRecord(const AccountRecord& record):account(record.account),date(record.date)
+AccountRecord::AccountRecord(const AccountRecord& record) :date(record.date),account(record.account)
 {
 	this->amount = record.amount;
 	this->balance = record.balance;
+	this->desc = record.desc;
 }
 void AccountRecord::print()const
 {

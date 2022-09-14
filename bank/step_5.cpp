@@ -36,7 +36,7 @@ int main() {
 
 		date.show();
 
-		cout << "\tTotal: " << Account::getTotal() << "\tcommand> ";
+		cout << "Total: " << Account::getTotal() << "        command> ";
 
 
 

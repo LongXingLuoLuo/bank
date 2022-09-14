@@ -82,6 +82,22 @@ bool Date::operator>(const Date& date) const
 {
 	return this->distance() > date.distance();
 }
+Date Date::read()
+{
+	string str;
+	cin >> str;
+	istringstream iss(str);
+	// »º´æÇø
+	string token;
+	
+	int dates[3] = {0,1,1};
+	for (int i = 0; i<3&&getline(iss, token, '/');i++)
+	{
+		istringstream istrstream(token);
+		istrstream >> dates[i];
+	}
+	return Date(dates[0], dates[1], dates[2]);
+}
 void Date::show() const
 {
 	stringstream ss;

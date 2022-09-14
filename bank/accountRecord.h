@@ -3,6 +3,7 @@
 #include"date.h"
 #include"account.h"
 using namespace std;
+class Account;
 class AccountRecord
 {
 private:
@@ -17,7 +18,7 @@ private:
 	// √Ë ˆ
 	string desc;
 public:
-	AccountRecord(Date date, Account* acc, double amount, double banlance);
+	AccountRecord(Date date, Account* acc, double amount, double banlance,string desc);
 	AccountRecord(const AccountRecord& record);
 	void print() const;
 };
