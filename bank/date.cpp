@@ -10,6 +10,13 @@ namespace {
 	const int LEAP_YEAR_DAYS = 366;// 平年天数
 	const int AVERAGE_YEAR_DAYS = 365; // 平年天数
 }
+Date::Date()
+{
+	this->year = 1;
+	this->month = 1;
+	this->day = 1;
+	this->totalDays = this->distance();
+}
 Date::Date(int year, int month, int day)
 {
 	this->year = year;
@@ -60,14 +67,20 @@ int Date::operator-(const Date& date) const
 {
 	return this->distance() - date.distance();
 }
+
 Date::operator int() const
 {
 	return this->distance();
 }
-// 重载<运算符
+// 重载 < 运算符
 bool Date::operator<(const Date& date) const
 {
 	return this->distance() < date.distance();
+}
+// 重载 > 运算符
+bool Date::operator>(const Date& date) const
+{
+	return this->distance() > date.distance();
 }
 void Date::show() const
 {

@@ -17,10 +17,16 @@ Account::Account(Date date, string id)
 // 存入款实现
 void Account::record(Date date, double amount, string desc) 
 {
+	// 操作
 	amount = floor(amount * 100 + 0.5) / 100;
 	this->balance += amount;
 	total += amount;
 
+	// 保存记录
+	AccountRecord record(date, this, amount, balance);
+	recordMap.insert(pair<Date,AccountRecord>(date,record));
+
+	// 展示信息
 	date.show();
 	cout << setiosflags(ios::left) 
 		<< "#" << setw(15) << this->getId()
@@ -48,6 +54,22 @@ double Account::getBalance() const
 double Account::getTotal()
 {
 	return total;
+}
+// date1 前日期，date2 后日期
+void Account::query(Date date1,Date date2)
+{
+	
+	recordMap.upper_bound(date1);
+}
+void Account::query(Date date1, Date date2)
+{
+	auto start = recordMap.upper_bound(date1);
+	auto end = recordMap.lower_bound(date2);
+
+	for (auto item = start; item != end;item++)
+	{
+		item->second.print();
+	}
 }
 
 

@@ -14,7 +14,7 @@ private:
 	// 所有用户总金
 	static double total;
 	// 账目记录
-	multimap<Date, AccountRecord> recordMap;
+	static multimap<Date, AccountRecord> recordMap;
 
 public:
 	Account(Date date, string id);
@@ -33,6 +33,8 @@ public:
 	string getId() const;
 	double getBalance() const;
 	static double getTotal();
+	// 查询
+	static void query(Date date1, Date date2);
 };
 class SavingsAccount :public Account {
 private:

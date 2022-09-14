@@ -8,6 +8,7 @@ private:
 	int year, month, day;
 	int totalDays;
 public:
+	Date();
 	Date(int year, int month, int day);
 	Date(const Date &date);
 	// 获取距离初始日期的总天数
@@ -24,8 +25,10 @@ public:
 	operator int() const;
 	// 定义-，返回两个总天数之差
 	int operator-(const Date& date) const;
-	// 重载<运算符
+	// 重载 < 运算符
 	bool operator<(const Date& date) const;
+	// 重载 > 运算符
+	bool operator>(const Date& date) const;
 
 	int getYear() const;
 	int getDay() const;

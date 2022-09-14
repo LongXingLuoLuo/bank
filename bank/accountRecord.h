@@ -18,6 +18,7 @@ private:
 	string desc;
 public:
 	AccountRecord(Date date, Account* acc, double amount, double banlance);
-	void show() const;
+	AccountRecord(const AccountRecord& record);
+	void print() const;
 };
 

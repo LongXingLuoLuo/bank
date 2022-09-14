@@ -7,7 +7,12 @@ AccountRecord::AccountRecord(Date date, Account* acc, double amount, double banl
 	this->amount = amount;
 	this->balance = balance;
 }
-void AccountRecord::show()const
+AccountRecord::AccountRecord(const AccountRecord& record):account(record.account),date(record.date)
+{
+	this->amount = record.amount;
+	this->balance = record.balance;
+}
+void AccountRecord::print()const
 {
 	date.show();
 	cout << setiosflags(ios::left)
