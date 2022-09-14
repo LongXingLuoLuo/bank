@@ -7,6 +7,7 @@
 using namespace std;
 
 double Account::total = 0;
+multimap<Date, AccountRecord> Account::recordMap;
 Account::Account(Date date, string id)
 {
 	this->id = id;
@@ -23,7 +24,7 @@ void Account::record(Date date, double amount, string desc)
 	total += amount;
 
 	// 保存记录
-	AccountRecord record(date, this, amount, balance);
+	AccountRecord record(date, this, amount, balance,desc);
 	recordMap.insert(pair<Date,AccountRecord>(date,record));
 
 	// 展示信息
@@ -56,22 +57,20 @@ double Account::getTotal()
 	return total;
 }
 // date1 前日期，date2 后日期
-void Account::query(Date date1,Date date2)
-{
-	
-	recordMap.upper_bound(date1);
-}
 void Account::query(Date date1, Date date2)
 {
-	auto start = recordMap.upper_bound(date1);
+	auto iter = recordMap.upper_bound(date1);
 	auto end = recordMap.lower_bound(date2);
 
-	for (auto item = start; item != end;item++)
+	for (; iter != end;iter++)
 	{
-		item->second.print();
+		iter->second.print();
 	}
 }
+Account::~Account()
+{
 
+}
 
 
 SavingsAccount::SavingsAccount(Date date, string id, double rate):Account(date,id),acc(date,0.0f)
@@ -111,7 +110,10 @@ double SavingsAccount::getRate() const
 {
 	return this->rate;
 }
+SavingsAccount::~SavingsAccount()
+{
 
+}
 
 
 CreditAccount::CreditAccount(Date date, string id, double credit, double rate, double fee):Account(date,id),acc(date,0) 
@@ -201,4 +203,8 @@ double CreditAccount::getAvailable() const
 		return credit;
 	}
 	
+}
+CreditAccount::~CreditAccount()
+{
+
 }
