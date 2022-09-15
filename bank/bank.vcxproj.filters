@@ -30,6 +30,9 @@
     <ClCompile Include="accountRecord.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="step_6.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="account.h">
@@ -44,5 +47,10 @@
     <ClInclude Include="accountRecord.h">
       <Filter>头文件</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="commands.txt">
+      <Filter>资源文件</Filter>
+    </Text>
   </ItemGroup>
 </Project>

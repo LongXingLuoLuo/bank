@@ -132,12 +132,16 @@
     <ClCompile Include="accumulator.cpp" />
     <ClCompile Include="date.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="step_6.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="account.h" />
     <ClInclude Include="accountRecord.h" />
     <ClInclude Include="accumulator.h" />
     <ClInclude Include="date.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="commands.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
