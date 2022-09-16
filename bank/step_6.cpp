@@ -172,7 +172,6 @@ int main() {
 	read_commands_from_txt();
 
 	cout << "(a)add account (d)deposit (w)withdraw (s)show (c)change day (n)next month (q)query (e)exit" << endl;
-
 	do {
 
 		//显示日期和总金额
@@ -180,6 +179,7 @@ int main() {
 		date.show();
 
 		cout << "Total: " << Account::getTotal() << "        command> ";
+		return 0; // 直接返回
 		commands(&cin);
 
 	} while (cmd != 'e');
