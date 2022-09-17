@@ -82,10 +82,10 @@ bool Date::operator>(const Date& date) const
 {
 	return this->distance() > date.distance();
 }
-Date Date::read()
+Date Date::read(istream* is)
 {
 	string str;
-	cin >> str;
+	*is >> str;
 	istringstream iss(str);
 	// »º´æÇø
 	string token;

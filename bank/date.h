@@ -16,7 +16,7 @@ public:
 	// 是否为闰年
 	bool isLeapYear()const;
 	// 从控制台输入获取日期
-	static Date read();
+	static Date read(istream* is);
 	
 	// 展示
 	void show() const;
