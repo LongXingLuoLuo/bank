@@ -26,6 +26,20 @@ struct deleter {
 vector<Account*> accounts;//创建账户数组，元素个数为0
 Date date(2008, 11, 1);//起始日期
 char cmd;
+// 是否开启记录命令
+bool isRecord = false;
+
+static ofstream ofs(COMMANDS_TXT_PATH, ios::app);
+void save_to_file(string str)
+{
+	str = '\n' + str;
+	if (ofs.is_open())
+	{
+		//cout << str << endl;
+		ofs << str;
+	}
+
+}
 
 // 执行命令
 void commands(istream* is)
@@ -42,56 +56,52 @@ void commands(istream* is)
 
 	Date date1, date2;
 
+	ostringstream oss;
+
 	*is >> cmd;
 
 	switch (cmd) {
 
 	case 'a'://增加账户
-
 		*is >> type >> id;
 
 		if (type == 's') {
 
 			*is >> rate;
-
 			account = new SavingsAccount(date, id, rate);
+
+			oss << cmd << " " << type << " " << id << " " << rate << "\n";
 
 		}
 
 		else {
 
 			*is >> credit >> rate >> fee;
-
 			account = new CreditAccount(date, id, credit, rate, fee);
+
+			oss << cmd << " " << type << " " << id << " " << credit << " " << rate << " " << fee << "\n";
 
 		}
 
 		accounts.push_back(account);
-
 		break;
 
 	case 'd'://存入现金
-
 		*is >> index >> amount;
-
 		getline(*is, desc);
-
 		accounts[index]->deposit(date, amount, desc);
-
+		oss << cmd << " " << index << " " << amount << " " << desc << "\n";
 		break;
 
 	case 'w'://取出现金
-
 		*is >> index >> amount;
-
 		getline(*is, desc);
-
 		accounts[index]->withdraw(date, amount, desc);
-
+		oss << cmd << " " << index << " " << amount << " " << desc << "\n";
 		break;
 
 	case 's'://查询各账户信息
-
+		
 		for (size_t i = 0; i < accounts.size(); i++) {
 
 			cout << "[" << i << "] ";
@@ -101,13 +111,11 @@ void commands(istream* is)
 			cout << endl;
 
 		}
-
 		break;
 
 	case 'c'://改变日期
-
+		
 		*is >> day;
-
 		if (day < date.getDay())
 
 			cout << "You cannot specify a previous day";
@@ -119,11 +127,10 @@ void commands(istream* is)
 		else
 
 			date = Date(date.getYear(), date.getMonth(), day);
-
+		oss << cmd << " " << day << "\n";
 		break;
 
 	case 'n'://进入下个月
-
 		if (date.getMonth() == 12)
 
 			date = Date(date.getYear() + 1, 1, 1);
@@ -135,42 +142,52 @@ void commands(istream* is)
 		for (vector<Account*>::iterator iter = accounts.begin(); iter != accounts.end(); ++iter)
 
 			(*iter)->settle(date);
-
+		oss << cmd <<"\n" << endl;
 		break;
 
 	case 'q'://查询一段时间内的账目
-
 		date1 = Date::read();
-
 		date2 = Date::read();
-
 		Account::query(date1, date2);
-
+		oss << cmd << " " 
+			<< date1.getYear() << "/" << date1.getMonth() << "/" << date1.getDay() << " " 
+			<< date2.getYear() << "/" << date2.getMonth() << "/" << date2.getDay() << "\n" ;
 		break;
-
+	}
+	if (isRecord)
+	{
+		// 保存到文件中
+		save_to_file(oss.str());
 	}
 }
 
 // 读取commands.txt命令
 void read_commands_from_txt()
 {
+	// 文件输入流
 	ifstream ifile(COMMANDS_TXT_PATH, ios::in);
 	string str;
+	// 每次获取一行内容，保存到str中
 	while (getline(ifile, str, '\n'))
 	{
-		if (str[0] == '\n' || str == "")
+		// 如果是空行则继续下一个
+		if ((!str.compare("\n")) || (!str.compare("")))
 		{
 			continue;
 		}
-		stringstream iss(str);
+		// str转成string输出流
+		istringstream iss(str);
+		// 执行命令
 		commands(&iss);
 	}
 	ifile.close();
 }
 
 int main() {
+	// 读取文件
 	read_commands_from_txt();
-
+	// 开始记录指令
+	isRecord = true;
 	cout << "(a)add account (d)deposit (w)withdraw (s)show (c)change day (n)next month (q)query (e)exit" << endl;
 	do {
 
@@ -179,12 +196,15 @@ int main() {
 		date.show();
 
 		cout << "Total: " << Account::getTotal() << "        command> ";
-		return 0; // 直接返回
+		//break; // 直接返回
+		
 		commands(&cin);
 
 	} while (cmd != 'e');
-	//for_each(accounts.begin(), accounts.end(), deleter());
 
+	//for_each(accounts.begin(), accounts.end(), deleter());
+	
+	ofs.close();
 	return 0;
 	
 }
