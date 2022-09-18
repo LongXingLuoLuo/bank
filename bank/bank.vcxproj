@@ -131,6 +131,7 @@
     <ClCompile Include="accountRecord.cpp" />
     <ClCompile Include="accumulator.cpp" />
     <ClCompile Include="date.cpp" />
+    <ClCompile Include="error.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="step_6.cpp" />
   </ItemGroup>
@@ -139,6 +140,7 @@
     <ClInclude Include="accountRecord.h" />
     <ClInclude Include="accumulator.h" />
     <ClInclude Include="date.h" />
+    <ClInclude Include="error.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="commands.txt" />

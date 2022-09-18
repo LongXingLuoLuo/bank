@@ -1,6 +1,7 @@
 //step6.cpp
 
 #include "account.h"
+#include"error.h"
 
 #include <iostream>
 
@@ -94,10 +95,21 @@ void commands(istream* is)
 		break;
 
 	case 'w'://取出现金
-		*is >> index >> amount;
-		getline(*is, desc);
-		accounts[index]->withdraw(date, amount, desc);
-		oss << cmd << " " << index << " " << amount << " " << desc << "\n";
+		try {
+			*is >> index >> amount;
+			getline(*is, desc);
+			accounts[index]->withdraw(date, amount, desc);
+			oss << cmd << " " << index << " " << amount << " " << desc << "\n";
+		}
+		catch (WithdrawOver& e)
+		{
+			cout << e.what() << endl;
+			
+			// 清空缓存区
+			//string str;
+			//getline(cin, str,'\n');
+			//cin.clear();
+		}
 		break;
 
 	case 's'://查询各账户信息
@@ -146,12 +158,19 @@ void commands(istream* is)
 		break;
 
 	case 'q'://查询一段时间内的账目
-		date1 = Date::read();
-		date2 = Date::read();
-		Account::query(date1, date2);
-		oss << cmd << " " 
-			<< date1.getYear() << "/" << date1.getMonth() << "/" << date1.getDay() << " " 
-			<< date2.getYear() << "/" << date2.getMonth() << "/" << date2.getDay() << "\n" ;
+		try {
+			date1 = Date::read();
+			date2 = Date::read();
+			Account::query(date1, date2);
+		}
+		catch (DateReadFormat &e)
+		{
+			cout << e.what() << endl;
+			// 清空缓存区
+			string str;
+			getline(cin, str,'\n');
+			str;
+		}
 		break;
 	}
 	if (isRecord)

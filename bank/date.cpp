@@ -3,6 +3,7 @@
 #include<string>
 #include <sstream>
 #include <iomanip>
+#include"error.h"
 using namespace std;
 namespace {
 	const int DAYS_BEFORE_MONTH[] = { 0,31,59,90,120,151,181,212,243,273,304,334,365 };
@@ -91,10 +92,15 @@ Date Date::read()
 	string token;
 	
 	int dates[3] = {0,1,1};
-	for (int i = 0; i<3&&getline(iss, token, '/');i++)
+	int i = 0;
+	for (; i<3&&getline(iss, token, '/');i++)
 	{
 		istringstream istrstream(token);
 		istrstream >> dates[i];
+	}
+	if (i < 3)
+	{
+		throw DateReadFormat(str);
 	}
 	return Date(dates[0], dates[1], dates[2]);
 }

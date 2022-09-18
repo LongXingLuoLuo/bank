@@ -4,6 +4,7 @@
 #include<cmath>
 #include <iomanip>
 #include <sstream>
+#include"error.h"
 using namespace std;
 
 double Account::total = 0;
@@ -86,7 +87,8 @@ void SavingsAccount::withdraw(Date date, double amount, string desc)
 {
 	if (amount > getBalance())
 	{
-		error("not enough money");
+		// ±¨´í
+		throw AccountWithdrawOverBalance();
 	}
 	else {
 		record(date, -amount,desc);
@@ -139,7 +141,8 @@ void CreditAccount::withdraw(Date date, double amount, string desc)
 {
 	if (getBalance() - amount < -getCredit())
 	{
-		error("not credit");
+		// ±¨´í
+		throw AccountWithdrawOverCredit();
 	}
 	else {
 		record(date, -amount,desc);
