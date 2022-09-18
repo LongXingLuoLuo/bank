@@ -36,7 +36,7 @@ public:
 	static double getTotal();
 	// 查询
 	static void query(Date date1, Date date2);
-	~Account();
+	virtual ~Account();
 };
 class SavingsAccount :public Account {
 private:
@@ -53,7 +53,6 @@ public:
 	// 结算
 	void settle(const Date& date);
 	double getRate() const;
-	~SavingsAccount();
 };
 class CreditAccount:public virtual Account {
 private:
@@ -79,5 +78,4 @@ public:
 	double getFee() const;
 	// 剩余信用额度
 	double getAvailable() const;
-	~CreditAccount();
 };

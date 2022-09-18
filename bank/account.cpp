@@ -4,6 +4,7 @@
 #include<cmath>
 #include <iomanip>
 #include <sstream>
+#include"error.h"
 using namespace std;
 
 double Account::total = 0;
@@ -69,9 +70,8 @@ void Account::query(Date date1, Date date2)
 }
 Account::~Account()
 {
-
+	/*cout << this->getId()<<"is deleted" << endl;*/
 }
-
 
 SavingsAccount::SavingsAccount(Date date, string id, double rate):Account(date,id),acc(date,0.0f)
 {
@@ -86,7 +86,8 @@ void SavingsAccount::withdraw(Date date, double amount, string desc)
 {
 	if (amount > getBalance())
 	{
-		error("not enough money");
+		// ±¨´í
+		throw AccountWithdrawOverBalance();
 	}
 	else {
 		record(date, -amount,desc);
@@ -109,10 +110,6 @@ void SavingsAccount::settle(const Date& date)
 double SavingsAccount::getRate() const
 {
 	return this->rate;
-}
-SavingsAccount::~SavingsAccount()
-{
-
 }
 
 
@@ -139,7 +136,8 @@ void CreditAccount::withdraw(Date date, double amount, string desc)
 {
 	if (getBalance() - amount < -getCredit())
 	{
-		error("not credit");
+		// ±¨´í
+		throw AccountWithdrawOverCredit();
 	}
 	else {
 		record(date, -amount,desc);
@@ -203,8 +201,4 @@ double CreditAccount::getAvailable() const
 		return credit;
 	}
 	
-}
-CreditAccount::~CreditAccount()
-{
-	cout << this->getId() << " destoryed" << endl;
 }

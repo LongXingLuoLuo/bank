@@ -21,7 +21,7 @@ public:
 	// 展示
 	void show() const;
 	// 返回一年中总天数
-	int getMaxDay();
+	int getMaxDay() const;
 	// 返回一个月中总天数
 	int getMonthDays();
 	// 转换为int
