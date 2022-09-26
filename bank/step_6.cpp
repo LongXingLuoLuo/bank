@@ -1,24 +1,13 @@
-//step6.cpp
-
 #include "account.h"
 #include"error.h"
-
 #include <iostream>
-
 #include <vector>
-
 #include <algorithm>
-
 #include<fstream>
-
 #include<sstream>
 
 #define COMMANDS_TXT_PATH "./commands.txt"
 using namespace std;
-
-
-
-
 
 vector<Account*> accounts;//创建账户数组，元素个数为0
 

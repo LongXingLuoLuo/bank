@@ -31,6 +31,7 @@ public:
 	virtual void withdraw(Date date, double amount, string desc) = 0;
 	// Ω·À„
 	virtual void settle(const Date& date) = 0;
+	virtual string toString() const;
 	string getId() const;
 	double getBalance() const;
 	static double getTotal();
@@ -73,6 +74,7 @@ public:
 	// Ω·À„
 	void settle(const Date& date);
 	void show() const;
+	string toString()const;
 	double getCredit() const;
 	double getRate() const;
 	double getFee() const;

@@ -1,9 +1,9 @@
-#include "date.h"
+#include"date.h"
+#include"error.h"
 #include<iostream>
 #include<string>
-#include <sstream>
-#include <iomanip>
-#include"error.h"
+#include<sstream>
+#include<iomanip>
 using namespace std;
 namespace {
 	const int DAYS_BEFORE_MONTH[] = { 0,31,59,90,120,151,181,212,243,273,304,334,365 };
@@ -11,6 +11,7 @@ namespace {
 	const int LEAP_YEAR_DAYS = 366;// 平年天数
 	const int AVERAGE_YEAR_DAYS = 365; // 平年天数
 }
+
 Date::Date()
 {
 	this->year = 1;
@@ -43,6 +44,7 @@ int Date::distance()const
 	}
 	return results;
 }
+
 bool Date::isLeapYear()const
 {
 	if (year % 4 == 0)
@@ -64,11 +66,50 @@ bool Date::isLeapYear()const
 		return false;
 	}
 }
+Date Date::stringToDate(string str)
+{
+	istringstream iss(str);
+	// 缓存区
+	string token;
+
+	int dates[3] = { 0,1,1 };
+	int i = 0;
+	for (; i < 3 && getline(iss, token, '/'); i++)
+	{
+		istringstream istrstream(token);
+		istrstream >> dates[i];
+	}
+	if (i < 3)
+	{
+		throw DateReadFormat(str);
+	}
+	return Date(dates[0], dates[1], dates[2]);
+}
+string Date::toString() const
+{
+	ostringstream oss;
+	oss << year << "-" << month << "-" << day;
+	return oss.str();
+}
+
+Date Date::read()
+{
+	string str;
+	cin >> str;
+	return stringToDate(str);
+}
+void Date::show() const
+{
+	cout << setw(16) << setiosflags(ios::left) << toString();
+}
+
+/*===========================================================*/
+/*=============== operator() ================================*/
+/*===========================================================*/
 int Date::operator-(const Date& date) const
 {
 	return this->distance() - date.distance();
 }
-
 Date::operator int() const
 {
 	return this->distance();
@@ -83,33 +124,24 @@ bool Date::operator>(const Date& date) const
 {
 	return this->distance() > date.distance();
 }
-Date Date::read()
+// ostream << Date
+ostream& operator<<(ostream& os, const Date& date)
+{
+	os << date.toString();
+	return os;
+}
+// istream >> Date
+istream& operator>>(istream& is, Date& date)
 {
 	string str;
-	cin >> str;
-	istringstream iss(str);
-	// 缓存区
-	string token;
-	
-	int dates[3] = {0,1,1};
-	int i = 0;
-	for (; i<3&&getline(iss, token, '/');i++)
-	{
-		istringstream istrstream(token);
-		istrstream >> dates[i];
-	}
-	if (i < 3)
-	{
-		throw DateReadFormat(str);
-	}
-	return Date(dates[0], dates[1], dates[2]);
+	is >> str;
+	date = Date::stringToDate(str);
+	return is;
 }
-void Date::show() const
-{
-	stringstream ss;
-	ss << year << "-" << month << "-" << day;
-	cout << setw(16) << setiosflags(ios::left) << ss.str();
-}
+
+/*===========================================================*/
+/*================= get() ===================================*/
+/*===========================================================*/
 int Date::getMaxDay() const
 {
 	if (this->isLeapYear())

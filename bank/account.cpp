@@ -6,7 +6,9 @@
 #include <sstream>
 #include"error.h"
 using namespace std;
-
+/*=============================================================================*/
+/*================================= Account ===================================*/
+/*=============================================================================*/
 double Account::total = 0;
 multimap<Date, AccountRecord> Account::recordMap;
 Account::Account(Date date, string id)
@@ -35,10 +37,17 @@ void Account::record(Date date, double amount, string desc)
 		<< setw(8) << setiosflags(ios::left) << amount
 		<< setw(8) << setiosflags(ios::left) << this->getBalance() << desc << endl;
 }
+string Account::toString() const
+{
+	ostringstream oss;
+	oss << setw(16) << setiosflags(ios::left) << this->getId()
+		<< "Balance: " << setw(7) << this->getBalance();
+	return oss.str();
+}
 // Õ¹Ê¾
 void Account::show() const
 {
-	cout<< setw(16) << this->id << "Balance: " << this->getBalance();
+	cout<< toString();
 }
 // ±¨´í
 void Account::error(string msg)
@@ -73,6 +82,9 @@ Account::~Account()
 	/*cout << this->getId()<<"is deleted" << endl;*/
 }
 
+/*==============================================================================================*/
+/*================================= SavingsAccount =============================================*/
+/*===============================================================================================*/
 SavingsAccount::SavingsAccount(Date date, string id, double rate):Account(date,id),acc(date,0.0f)
 {
 	this->rate = rate;
@@ -112,8 +124,11 @@ double SavingsAccount::getRate() const
 	return this->rate;
 }
 
-
-CreditAccount::CreditAccount(Date date, string id, double credit, double rate, double fee):Account(date,id),acc(date,0) 
+/*=============================================================================================*/
+/*================================= CreditAccountAccount ====================================*/
+/*===========================================================================================*/
+CreditAccount::CreditAccount(Date date, string id, double credit, double rate, double fee)
+	:Account(date,id),acc(date,0) 
 {
 	this->credit = credit;
 	this->rate = rate;
@@ -177,7 +192,14 @@ void CreditAccount::show() const {
 		<< "Balance: " << setw(7) << this->getBalance()
 		<< "Available credit:" << this->getAvailable();
 }
-
+string CreditAccount::toString()const
+{
+	ostringstream oss;
+	oss << setw(16) << setiosflags(ios::left) << this->getId()
+		<< "Balance: " << setw(7) << this->getBalance()
+		<< "Available credit:" << this->getAvailable();
+	return oss.str();
+}
 double CreditAccount::getCredit() const
 {
 	return credit;
