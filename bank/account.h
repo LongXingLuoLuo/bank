@@ -31,12 +31,13 @@ public:
 	virtual void withdraw(Date date, double amount, string desc) = 0;
 	// 结算
 	virtual void settle(const Date& date) = 0;
+	virtual string toString() const;
 	string getId() const;
 	double getBalance() const;
 	static double getTotal();
 	// 查询
 	static void query(Date date1, Date date2);
-	~Account();
+	virtual ~Account();
 };
 class SavingsAccount :public Account {
 private:
@@ -53,7 +54,6 @@ public:
 	// 结算
 	void settle(const Date& date);
 	double getRate() const;
-	~SavingsAccount();
 };
 class CreditAccount:public virtual Account {
 private:
@@ -74,10 +74,10 @@ public:
 	// 结算
 	void settle(const Date& date);
 	void show() const;
+	string toString()const;
 	double getCredit() const;
 	double getRate() const;
 	double getFee() const;
 	// 剩余信用额度
 	double getAvailable() const;
-	~CreditAccount();
 };
