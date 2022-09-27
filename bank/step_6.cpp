@@ -3,8 +3,8 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include<fstream>
-#include<sstream>
+#include <fstream>
+#include <sstream>
 
 #define COMMANDS_TXT_PATH "./commands.txt"
 using namespace std;
