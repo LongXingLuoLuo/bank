@@ -1,29 +1,22 @@
-//step6.cpp
-
 #include "account.h"
-
+#include "error.h"
 #include <iostream>
-
 #include <vector>
-
 #include <algorithm>
-
 #include<fstream>
-
 #include<sstream>
 
 #define COMMANDS_TXT_PATH "./commands.txt"
 using namespace std;
 
-
+vector<Account*> accounts;//创建账户数组，元素个数为0
 
 struct deleter {
 
-	template <class T> void operator () (T* p) { delete p; }
+	template <class T> void operator () (T* p){delete p;}
 
 };
 
-vector<Account*> accounts;//创建账户数组，元素个数为0
 Date date(2008, 11, 1);//起始日期
 char cmd;
 // 是否开启记录命令
@@ -94,10 +87,23 @@ void commands(istream* is)
 		break;
 
 	case 'w'://取出现金
-		*is >> index >> amount;
-		getline(*is, desc);
-		accounts[index]->withdraw(date, amount, desc);
-		oss << cmd << " " << index << " " << amount << " " << desc << "\n";
+		try {
+			*is >> index >> amount;
+			getline(*is, desc);
+			accounts[index]->withdraw(date, amount, desc);
+			oss << cmd << " " << index << " " << amount << " " << desc << "\n";
+		}
+		catch (WithdrawOver& e)
+		{
+			cerr << e.what() << endl;
+			
+			// 清空缓存区
+			cin.clear();
+			//string str;
+			//getline(cin, str, '\n');
+			
+			
+		}
 		break;
 
 	case 's'://查询各账户信息
@@ -146,15 +152,22 @@ void commands(istream* is)
 		break;
 
 	case 'q'://查询一段时间内的账目
-		date1 = Date::read();
-		date2 = Date::read();
-		Account::query(date1, date2);
-		oss << cmd << " " 
-			<< date1.getYear() << "/" << date1.getMonth() << "/" << date1.getDay() << " " 
-			<< date2.getYear() << "/" << date2.getMonth() << "/" << date2.getDay() << "\n" ;
+		try {
+			date1 = Date::read();
+			date2 = Date::read();
+			Account::query(date1, date2);
+		}
+		catch (DateReadFormat &e)
+		{
+			cerr << e.what() << endl;
+			cin.clear();
+			// 清空缓存区
+			string str;
+			getline(cin, str,'\n');
+		}
 		break;
 	}
-	if (isRecord)
+	if (isRecord&&oss.str() != ""&&oss.str() != "\n")
 	{
 		// 保存到文件中
 		save_to_file(oss.str());
@@ -202,7 +215,13 @@ int main() {
 
 	} while (cmd != 'e');
 
-	//for_each(accounts.begin(), accounts.end(), deleter());
+	try {
+		for_each(accounts.begin(), accounts.end(), deleter());
+	}
+	catch (exception& e)
+	{
+		cout << e.what() << endl;
+	}
 	
 	ofs.close();
 	return 0;
