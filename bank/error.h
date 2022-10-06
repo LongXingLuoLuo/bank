@@ -1,6 +1,7 @@
 #pragma once
 #include<stdexcept>
 #include<string>
+#include"account.h"
 using namespace std;
 // 时间读取格式错误
 class DateReadFormat:
@@ -8,27 +9,22 @@ class DateReadFormat:
 {
 public:
     DateReadFormat(string str);
+    virtual string toString() const;
 };
-
+class AccountException :virtual public runtime_error {
+public:
+    AccountException(Account* account);
+    virtual string toString() const;
+private:
+    Account* account;
+};
 // 账户取钱错误
-class WithdrawOver:
-    virtual public runtime_error {
+class AccountWithdrawOverException:
+    virtual public AccountException {
 public:
-    WithdrawOver();
+    AccountWithdrawOverException(Account* account);
 };
-
-// 存储账户取钱超过余额错误
-class AccountWithdrawOverBalance :
-    virtual public WithdrawOver
-{
+class CommandFormatException :virtual public runtime_error {
 public:
-    AccountWithdrawOverBalance();
-};
-
-// 信用账户取钱超过余额错误
-class AccountWithdrawOverCredit :
-    virtual public WithdrawOver
-{
-public:
-    AccountWithdrawOverCredit();
+    CommandFormatException(string cmd);
 };

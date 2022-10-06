@@ -4,6 +4,7 @@
 #include<string>
 #include<sstream>
 #include<iomanip>
+#include"log.h"
 using namespace std;
 namespace {
 	const int DAYS_BEFORE_MONTH[] = { 0,31,59,90,120,151,181,212,243,273,304,334,365 };
@@ -100,7 +101,9 @@ Date Date::read()
 }
 void Date::show() const
 {
-	cout << setw(16) << setiosflags(ios::left) << toString();
+	ostringstream oss;
+	oss << setw(16) << setiosflags(ios::left) << toString();
+	Log::info(oss.str());
 }
 
 /*===========================================================*/

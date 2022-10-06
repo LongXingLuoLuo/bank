@@ -21,5 +21,6 @@ public:
 	AccountRecord(Date date, Account* acc, double amount, double banlance,string desc);
 	AccountRecord(const AccountRecord& record);
 	void print() const;
+	string toString() const;
 };
 

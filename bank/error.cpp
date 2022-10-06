@@ -4,19 +4,26 @@ DateReadFormat::DateReadFormat(string str)
 {
 
 }
-WithdrawOver::WithdrawOver() 
-	:runtime_error("账户取钱错误")
+string DateReadFormat::toString()const
+{
+	return what();
+}
+AccountException::AccountException(Account* account)
+	:account(account),runtime_error("账户错误")
 {
 
 }
-
-AccountWithdrawOverBalance::AccountWithdrawOverBalance()
-	:WithdrawOver(),runtime_error("储蓄账户取钱超过余额")
+string AccountException::toString() const
+{
+	return account->getId() + this->what();
+}
+AccountWithdrawOverException::AccountWithdrawOverException(Account* account)
+	:AccountException(account),runtime_error("账户取钱错误")
 {
 
 }
-AccountWithdrawOverCredit::AccountWithdrawOverCredit()
-	:WithdrawOver(), runtime_error("信用账户取钱超过信用额度")
+CommandFormatException::CommandFormatException(string cmd)
+	:runtime_error(cmd + "命令格式错误")
 {
 
 }

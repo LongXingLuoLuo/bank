@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <sstream>
 #include"error.h"
+#include"log.h"
 using namespace std;
 /*=============================================================================*/
 /*================================= Account ===================================*/
@@ -15,8 +16,9 @@ Account::Account(Date date, string id)
 {
 	this->id = id;
 	this->balance = 0.0f;
-	date.show();
-	cout << setiosflags(ios::left)<<"#" << this->getId() << " created" << endl;
+	ostringstream oss;
+	oss << setw(16) << setiosflags(ios::left) << date << setiosflags(ios::left)<<"#" << this->getId() << " created" << endl;
+	Log::info(oss.str());
 }
 // 存入款实现
 void Account::record(Date date, double amount, string desc) 
@@ -31,11 +33,13 @@ void Account::record(Date date, double amount, string desc)
 	recordMap.insert(pair<Date,AccountRecord>(date,record));
 
 	// 展示信息
-	date.show();
-	cout << setiosflags(ios::left) 
+	ostringstream oss;
+	oss << setw(16) << setiosflags(ios::left) << date
+		<< setiosflags(ios::left)
 		<< "#" << setw(15) << this->getId()
 		<< setw(8) << setiosflags(ios::left) << amount
 		<< setw(8) << setiosflags(ios::left) << this->getBalance() << desc << endl;
+	Log::info(oss.str());
 }
 string Account::toString() const
 {
@@ -47,12 +51,12 @@ string Account::toString() const
 // 展示
 void Account::show() const
 {
-	cout<< toString();
+	Log::info( toString());
 }
 // 报错
 void Account::error(string msg)
 {
-	cout << "Error: " << msg << endl;
+	Log::warnning("Error: " + msg + "/n");
 }
 string Account::getId() const
 {
@@ -74,7 +78,7 @@ void Account::query(Date date1, Date date2)
 
 	for (; iter != end;iter++)
 	{
-		iter->second.print();
+		Log::info(iter->second.toString());
 	}
 }
 Account::~Account()
@@ -99,7 +103,7 @@ void SavingsAccount::withdraw(Date date, double amount, string desc)
 	if (amount > getBalance())
 	{
 		// 报错
-		throw AccountWithdrawOverBalance();
+		throw AccountWithdrawOverException(this);
 	}
 	else {
 		record(date, -amount,desc);
@@ -152,7 +156,7 @@ void CreditAccount::withdraw(Date date, double amount, string desc)
 	if (getBalance() - amount < -getCredit())
 	{
 		// 报错
-		throw AccountWithdrawOverCredit();
+		throw AccountWithdrawOverException(this);
 	}
 	else {
 		record(date, -amount,desc);
@@ -188,9 +192,7 @@ void CreditAccount::settle(const Date& date)
 }
 
 void CreditAccount::show() const {
-	cout << setw(16) << setiosflags(ios::left) << this->getId()
-		<< "Balance: " << setw(7) << this->getBalance()
-		<< "Available credit:" << this->getAvailable();
+	Log::info(this->toString());
 }
 string CreditAccount::toString()const
 {
