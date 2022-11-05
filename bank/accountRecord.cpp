@@ -18,15 +18,19 @@ AccountRecord::AccountRecord(const AccountRecord& record) :date(record.date),acc
 }
 void AccountRecord::print()const
 {
-	date.show();
 	Log::info(toString());
 }
 string AccountRecord::toString() const
 {
 	ostringstream oss;
-	oss << setiosflags(ios::left)
+	oss << setw(16) << setiosflags(ios::left) << date.toString()
+		<< setiosflags(ios::left)
 		<< "#" << setw(15) << account->getId()
 		<< setw(8) << setiosflags(ios::left) << amount
 		<< setw(8) << setiosflags(ios::left) << balance << desc;
 	return oss.str();
+}
+double AccountRecord::getAmount() const
+{
+	return amount;
 }

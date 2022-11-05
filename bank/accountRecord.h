@@ -22,5 +22,6 @@ public:
 	AccountRecord(const AccountRecord& record);
 	void print() const;
 	string toString() const;
+	double getAmount() const;
 };
 

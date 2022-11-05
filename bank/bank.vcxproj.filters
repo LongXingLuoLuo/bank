@@ -74,9 +74,4 @@
       <Filter>资源文件</Filter>
     </Text>
   </ItemGroup>
-  <ItemGroup>
-    <Media Include="bg.wav">
-      <Filter>资源文件</Filter>
-    </Media>
-  </ItemGroup>
 </Project>

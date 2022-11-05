@@ -33,7 +33,6 @@ string getNowDateFromUtils();
 // 开始记录
 void beginRecord();
 
-
 // 控制台输出
 void printToScreen(const string str,const int x, const int y,const int color = 7);
 // 保存到文件
@@ -43,5 +42,14 @@ void save_to_file(string str);
 void commands(istringstream& is);
 // 读取commands.txt命令
 void read_commands_from_txt();
+
+// 打印选择
+void printChoice();
+//清空边框内内容
+void clearBorder();
+
 // 结束
 void utilsExit();
+
+// 显示时间
+void showTime();

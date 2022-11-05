@@ -29,3 +29,11 @@ n
 c 15
 
 w 2 1500 buy a television
+
+n
+
+
+n
+
+
+c 17

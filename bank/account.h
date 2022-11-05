@@ -37,6 +37,8 @@ public:
 	static double getTotal();
 	// 查询
 	static void query(Date date1, Date date2);
+	// 按流水金额排序
+	static void queryByAmount(Date date1, Date date2);
 	virtual ~Account();
 };
 class SavingsAccount :public Account {

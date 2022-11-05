@@ -18,9 +18,7 @@ int step_6() {
 		//显示日期和总金额
 
 		//date.show();
-
 		wcout << "Total: " << Account::getTotal() << "        command> ";
-		//break; // 直接返回
 		string str;
 		getline(cin,str);
 		istringstream iss(str);

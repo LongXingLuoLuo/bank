@@ -19,8 +19,8 @@ using namespace std;
 vector<Account*> accounts;
 // 是否开启记录命令
 bool isRecord;
-// 起始日期
-Date date;
+// 全局日期
+Date global_date;
 // commands.txt文件输出流
 ofstream ofs;
 void printBorder()
@@ -52,18 +52,39 @@ void printChoice()
 	printToScreen("[q] query", x, y++);
 	printToScreen("[e] exit", x, y++);
 }
+void clearBorder()
+{
+	string str = "";
+	for (int i = BORDER_LEFT + 1; i < BORDER_RIGHT; i++)
+	{
+		str += " ";
+	}
+	for (int i = BORDER_TOP + 1; i < BORDER_BOTTOM; i++)
+	{
+		printToScreen(str,BORDER_LEFT+1,i);
+	}
+}
 void utilsInit()
 {
 	HIDECURSOR();
 	isRecord = false;
-	date = Date(2008, 1, 1);
+	global_date = Date(2008, 11, 1);
 	printBorder();
 	printChoice();
+
+	try {
+		read_commands_from_txt();
+	}
+	catch (exception& e) {
+		Log::warnning(e.what());
+	}
+	beginRecord();
+	showTime();
 }
 
 string getNowDateFromUtils()
 {
-	return date.toString();
+	return global_date.toString();
 }
 
 void beginRecord()
@@ -102,6 +123,10 @@ void printToScreen(const string str, const int x, const int y,const int color)
 void save_to_file(string str)
 {
 	str = '\n' + str;
+	if (!ofs.is_open())
+	{
+		ofs.open(COMMANDS_TXT_PATH,ios::app);
+	}
 	if (ofs.is_open() && isRecord)
 	{
 		ofs << str;
@@ -126,16 +151,22 @@ void commands(istringstream& iss)
 	ostringstream oss;
 	char cmd;
 	iss >> cmd;
-
+	Log::info_clear();
 	switch (cmd) {
 
 	case 'a'://增加账户
-		iss >> type >> id;
+		if (!(iss >> type >> id))
+		{
+			throw CommandFormatException(iss.str());
+		}
 
 		if (type == 's') {
 
-			iss >> rate;
-			account = new SavingsAccount(date, id, rate);
+			if (!(iss >> rate))
+			{
+				throw CommandFormatException(iss.str());
+			}
+			account = new SavingsAccount(global_date, id, rate);
 
 			oss << cmd << " " << type << " " << id << " " << rate << "\n";
 
@@ -143,8 +174,11 @@ void commands(istringstream& iss)
 
 		else {
 
-			iss >> credit >> rate >> fee;
-			account = new CreditAccount(date, id, credit, rate, fee);
+			if (!(iss >> credit >> rate >> fee))
+			{
+				throw CommandFormatException(iss.str());
+			}
+			account = new CreditAccount(global_date, id, credit, rate, fee);
 
 			oss << cmd << " " << type << " " << id << " " << credit << " " << rate << " " << fee << "\n";
 
@@ -154,78 +188,84 @@ void commands(istringstream& iss)
 		break;
 
 	case 'd'://存入现金
-		iss >> index >> amount;
+		if (!(iss >> index >> amount))
+		{
+			throw CommandFormatException(iss.str());
+		}
 		getline(iss, desc);
-		accounts[index]->deposit(date, amount, desc);
+		accounts[index]->deposit(global_date, amount, desc);
 		oss << cmd << " " << index << " " << amount << " " << desc << "\n";
 		break;
 
 	case 'w'://取出现金
-		try {
-			iss >> index >> amount;
-			getline(iss, desc);
-			accounts[index]->withdraw(date, amount, desc);
-			oss << cmd << " " << index << " " << amount << " " << desc << "\n";
-		}
-		catch (AccountException& e)
+		if (!(iss >> index >> amount))
 		{
-			Log::warnning(e.toString());
+			throw CommandFormatException(iss.str());
 		}
+		getline(iss, desc);
+		accounts[index]->withdraw(global_date, amount, desc);
+		oss << cmd << " " << index << " " << amount << " " << desc << "\n";
 		break;
 
 	case 's'://查询各账户信息
 
+		Log::info_clear();
 		for (size_t i = 0; i < accounts.size(); i++) {
 
-			//cout << "[" << i << "] "<<accounts[i];
-
+			ostringstream msg("");
+			msg << "[" << i << "] " << accounts[i]->toString();
+			Log::info(msg.str());
 		}
 		break;
 
 	case 'c'://改变日期
 
-		iss >> day;
-		if (day < date.getDay())
-
+		if (!(iss >> day))
+		{
+			throw CommandFormatException(iss.str());
+		}
+		if (day < global_date.getDay())
 			Log::warnning("You cannot specify a previous day");
-
-		else if (day > date.getMaxDay())
-
+		else if (day > global_date.getMaxDay())
 			Log::warnning("Invalid day");
-
 		else
-
-			date = Date(date.getYear(), date.getMonth(), day);
+			global_date = Date(global_date.getYear(), global_date.getMonth(), day);
 		oss << cmd << " " << day << "\n";
+		showTime();
 		break;
 
 	case 'n'://进入下个月
-		if (date.getMonth() == 12)
-
-			date = Date(date.getYear() + 1, 1, 1);
-
+		if (global_date.getMonth() == 12)
+			global_date = Date(global_date.getYear() + 1, 1, 1);
 		else
-
-			date = Date(date.getYear(), date.getMonth() + 1, 1);
-
+			global_date = Date(global_date.getYear(), global_date.getMonth() + 1, 1);
 		for (vector<Account*>::iterator iter = accounts.begin(); iter != accounts.end(); ++iter)
-
-			(*iter)->settle(date);
+			(*iter)->settle(global_date);
 		oss << cmd << "\n" << endl;
+		showTime();
 		break;
 
 	case 'q'://查询一段时间内的账目
-		try {
-			date1 = Date::read();
-			date2 = Date::read();
-			Account::query(date1, date2);
-		}
-		catch (DateReadFormat& e)
+		string str1,str2;
+		if (!(iss >> str1 >> str2))
 		{
-			Log::warnning(e.toString());
+			throw CommandFormatException(iss.str());
+		}
+		date1 = Date::stringToDate(str1);
+		date2 = Date::stringToDate(str2);
+		char work = 0;
+		iss >> work;
+		Log::info(date1.toString() + "-" + date2.toString());
+		if (work)
+		{
+			Account::queryByAmount(date1, date2);
+		}
+		else {
+			Account::query(date1, date2);
 		}
 		break;
 	}
+	showTime();
 	if (oss.str() != "" && oss.str() != "\n")
 	{
 		// 保存到文件中
@@ -236,7 +276,13 @@ void commands(istringstream& iss)
 void read_commands_from_txt()
 {
 	// 文件输入流
-	ifstream ifile(COMMANDS_TXT_PATH, ios::in);
+	ifstream ifile;
+	try {
+		ifile.open(COMMANDS_TXT_PATH, ios::in);
+	}catch (exception& e) {
+		throw FileNotExistException(COMMANDS_TXT_PATH);
+	}
+
 	string str;
 	// 每次获取一行内容，保存到str中
 	while (getline(ifile, str, '\n'))
@@ -248,15 +294,23 @@ void read_commands_from_txt()
 		}
 		// str转成string输出流
 		istringstream iss(str);
-		// 执行命令
-		commands(iss);
+		try {
+			// 执行命令
+			commands(iss);
+		}
+		catch (exception& e) {
+			Log::warnning(e.what());
+		}
 	}
 	ifile.close();
 }
 
 void utilsExit()
 {
-	ofs.close();
+	if (ofs.is_open())
+	{
+		ofs.close();
+	}
 	try {
 		for_each(accounts.begin(), accounts.end(), deleter());
 	}
@@ -264,4 +318,11 @@ void utilsExit()
 	{
 		Log::warnning(e.what());
 	}
+}
+
+void showTime()
+{
+	string str = "                 ";
+	printToScreen("Time : " + str, TIME_LEFT, TIME_TOP);
+	printToScreen("Time : " + global_date.toString(), TIME_LEFT, TIME_TOP);
 }

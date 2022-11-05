@@ -5,6 +5,9 @@ using namespace std;
 
 class Log
 {
+private:
+	static int info_i;
+	static int warnning_i;
 public:
 	static void info(string str);
 	static void info_clear();

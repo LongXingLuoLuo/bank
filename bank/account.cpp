@@ -1,12 +1,21 @@
+#include<algorithm>
 #include "account.h"
 #include<string>
 #include<iostream>
 #include<cmath>
 #include <iomanip>
 #include <sstream>
+#include<vector>
 #include"error.h"
 #include"log.h"
 using namespace std;
+typedef pair<Date, AccountRecord> RECORDMAP_PAIR;
+bool cmp_amount(const RECORDMAP_PAIR& a, const RECORDMAP_PAIR& b)
+{
+	return a.second.getAmount() > b.second.getAmount();
+}
+
+
 /*=============================================================================*/
 /*================================= Account ===================================*/
 /*=============================================================================*/
@@ -75,8 +84,20 @@ void Account::query(Date date1, Date date2)
 {
 	auto iter = recordMap.upper_bound(date1);
 	auto end = recordMap.lower_bound(date2);
-
+	Log::info_clear();
 	for (; iter != end;iter++)
+	{
+		Log::info(iter->second.toString());
+	}
+}
+void Account::queryByAmount(Date date1, Date date2)
+{
+	auto first = recordMap.upper_bound(date1);
+	auto end = recordMap.lower_bound(date2);
+	Log::info_clear();
+	vector<RECORDMAP_PAIR> recordVector(first, end);
+	sort(recordVector.begin(), recordVector.end(), cmp_amount);
+	for (auto iter = recordVector.begin(); iter != recordVector.end(); iter++)
 	{
 		Log::info(iter->second.toString());
 	}

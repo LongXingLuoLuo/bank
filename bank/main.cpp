@@ -3,26 +3,39 @@
 #include<iostream>
 #include<conio.h>
 #include <windows.h>
+#include"config.h"
+#include<sstream>
 using namespace std;
 int main() 
 {
 	utilsInit();
-	read_commands_from_txt();
-	while (true)
+	
+	bool work = true;
+	do
 	{
-		gotoXY(0, 0);
 		if (_kbhit())
 		{
-			char a[2] = {};
-			a[0] = _getch();
-			Log::info(a);
-			if (a[0] == 'e')
-			{
+			clearBorder();
+			gotoXY(BORDER_LEFT + 4, BORDER_TOP + 4);
+			CHANGECOLOR(11);
+			string str;
+			getline(cin,str);
+			istringstream iss(str);
+			try {
+				// 执行命令
+				commands(iss);
+			}
+			catch (exception& e) {
+				Log::warnning(e.what());
+			}
+			if (str[0] == 'e') {
 				break;
 			}
+			clearBorder();
+			printChoice();
 		}
 		Sleep(50);
-	}
+	}while (work);
 
 	utilsExit();
 	return 0;

@@ -15,16 +15,25 @@ class AccountException :virtual public runtime_error {
 public:
     AccountException(Account* account);
     virtual string toString() const;
-private:
+protected:
     Account* account;
 };
+
 // 账户取钱错误
 class AccountWithdrawOverException:
     virtual public AccountException {
 public:
     AccountWithdrawOverException(Account* account);
 };
+
+// 命令格式错误
 class CommandFormatException :virtual public runtime_error {
 public:
     CommandFormatException(string cmd);
+};
+
+// 找不到文件
+class FileNotExistException : virtual public runtime_error {
+public:
+    FileNotExistException(string path);
 };
